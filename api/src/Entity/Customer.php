@@ -2,12 +2,10 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
 use App\Repository\CustomerRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
-#[ApiResource]
 class Customer
 {
     #[ORM\Id]
@@ -16,126 +14,141 @@ class Customer
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Mail = null;
+    private ?string $first_name = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $Nom = null;
+    #[ORM\Column(length: 255)]
+    private ?string $last_name = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $Prenom = null;
+    #[ORM\Column(length: 255)]
+    private ?string $address = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $city = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $zip_code = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $mobile = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $email = null;
 
     #[ORM\Column]
-    private ?int $Telephone = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $Address = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?int $ZipCode = null;
+    private ?\DateTimeImmutable $created_at = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $Created_at = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $Updated_at = null;
+    private ?\DateTimeImmutable $updated_at = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getMail(): ?string
+    public function getFirstName(): ?string
     {
-        return $this->Mail;
+        return $this->first_name;
     }
 
-    public function setMail(string $Mail): static
+    public function setFirstName(string $first_name): static
     {
-        $this->Mail = $Mail;
+        $this->first_name = $first_name;
 
         return $this;
     }
 
-    public function getNom(): ?string
+    public function getLastName(): ?string
     {
-        return $this->Nom;
+        return $this->last_name;
     }
 
-    public function setNom(?string $Nom): static
+    public function setLastName(string $last_name): static
     {
-        $this->Nom = $Nom;
-
-        return $this;
-    }
-
-    public function getPrenom(): ?string
-    {
-        return $this->Prenom;
-    }
-
-    public function setPrenom(?string $Prenom): static
-    {
-        $this->Prenom = $Prenom;
-
-        return $this;
-    }
-
-    public function getTelephone(): ?int
-    {
-        return $this->Telephone;
-    }
-
-    public function setTelephone(int $Telephone): static
-    {
-        $this->Telephone = $Telephone;
+        $this->last_name = $last_name;
 
         return $this;
     }
 
     public function getAddress(): ?string
     {
-        return $this->Address;
+        return $this->address;
     }
 
-    public function setAddress(?string $Address): static
+    public function setAddress(string $address): static
     {
-        $this->Address = $Address;
+        $this->address = $address;
 
         return $this;
     }
 
-    public function getZipCode(): ?int
+    public function getCity(): ?string
     {
-        return $this->ZipCode;
+        return $this->city;
     }
 
-    public function setZipCode(?int $ZipCode): static
+    public function setCity(string $city): static
     {
-        $this->ZipCode = $ZipCode;
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function getZipCode(): ?string
+    {
+        return $this->zip_code;
+    }
+
+    public function setZipCode(string $zip_code): static
+    {
+        $this->zip_code = $zip_code;
+
+        return $this;
+    }
+
+    public function getMobile(): ?string
+    {
+        return $this->mobile;
+    }
+
+    public function setMobile(string $mobile): static
+    {
+        $this->mobile = $mobile;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): static
+    {
+        $this->email = $email;
 
         return $this;
     }
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->Created_at;
+        return $this->created_at;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $Created_at): static
+    public function setCreatedAt(\DateTimeImmutable $created_at): static
     {
-        $this->Created_at = $Created_at;
+        $this->created_at = $created_at;
 
         return $this;
     }
 
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
-        return $this->Updated_at;
+        return $this->updated_at;
     }
 
-    public function setUpdatedAt(\DateTimeImmutable $Updated_at): static
+    public function setUpdatedAt(\DateTimeImmutable $updated_at): static
     {
-        $this->Updated_at = $Updated_at;
+        $this->updated_at = $updated_at;
 
         return $this;
     }

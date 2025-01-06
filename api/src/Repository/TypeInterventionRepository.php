@@ -2,39 +2,39 @@
 
 namespace App\Repository;
 
-use App\Entity\Compagny;
+use App\Entity\TypeIntervention;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Compagny>
+ * @extends ServiceEntityRepository<TypeIntervention>
  */
-class CompanyRepository extends ServiceEntityRepository
+class TypeInterventionRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Compagny::class);
+        parent::__construct($registry, TypeIntervention::class);
     }
 
     //    /**
-    //     * @return Compagny[] Returns an array of Compagny objects
+    //     * @return TypeIntervention[] Returns an array of TypeIntervention objects
     //     */
     //    public function findByExampleField($value): array
     //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
+    //        return $this->createQueryBuilder('t')
+    //            ->andWhere('t.exampleField = :val')
     //            ->setParameter('val', $value)
-    //            ->orderBy('c.id', 'ASC')
+    //            ->orderBy('t.id', 'ASC')
     //            ->setMaxResults(10)
     //            ->getQuery()
     //            ->getResult()
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Compagny
+    //    public function findOneBySomeField($value): ?TypeIntervention
     //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
+    //        return $this->createQueryBuilder('t')
+    //            ->andWhere('t.exampleField = :val')
     //            ->setParameter('val', $value)
     //            ->getQuery()
     //            ->getOneOrNullResult()

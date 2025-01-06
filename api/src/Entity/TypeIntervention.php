@@ -2,13 +2,11 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
-use App\Repository\EquipementRepository;
+use App\Repository\TypeInterventionRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: EquipementRepository::class)]
-#[ApiResource]
-class Equipement
+#[ORM\Entity(repositoryClass: TypeInterventionRepository::class)]
+class TypeIntervention
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
