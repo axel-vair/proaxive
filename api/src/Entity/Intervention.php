@@ -38,6 +38,9 @@ class Intervention
     #[ORM\ManyToMany(targetEntity: TypeIntervention::class, mappedBy: 'intervention')]
     private Collection $typeInterventions;
 
+    #[ORM\ManyToOne(inversedBy: 'interventions')]
+    private ?Company $company = null;
+
     public function __construct()
     {
         $this->typeInterventions = new ArrayCollection();
@@ -91,7 +94,7 @@ class Intervention
 
     public function setCreatedAt(\DateTimeImmutable $created_at): static
     {
-        $this->created_at = $Created_at;
+        $this->created_at = $created_at;
 
         return $this;
     }
@@ -131,6 +134,18 @@ class Intervention
         if ($this->typeInterventions->removeElement($typeIntervention)) {
             $typeIntervention->removeIntervention($this);
         }
+
+        return $this;
+    }
+
+    public function getCompany(): ?Company
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?Company $company): static
+    {
+        $this->company = $company;
 
         return $this;
     }
