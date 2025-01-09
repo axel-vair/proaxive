@@ -43,21 +43,21 @@ class Company
     private ?\DateTimeImmutable $updated_at = null;
 
     /**
-     * @var Collection<int, User>
-     */
-    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'company')]
-    private Collection $users;
-
-    /**
      * @var Collection<int, Intervention>
      */
     #[ORM\OneToMany(targetEntity: Intervention::class, mappedBy: 'company')]
     private Collection $interventions;
 
+    /**
+     * @var Collection<int, User>
+     */
+    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'company')]
+    private Collection $users;
+
     public function __construct()
     {
-        $this->users = new ArrayCollection();
         $this->interventions = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
 
@@ -182,28 +182,6 @@ class Company
         return $this->users;
     }
 
-    public function addUser(User $user): static
-    {
-        if (!$this->users->contains($user)) {
-            $this->users->add($user);
-            $user->setCompany($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): static
-    {
-        if ($this->users->removeElement($user)) {
-            // set the owning side to null (unless already changed)
-            if ($user->getCompany() === $this) {
-                $user->setCompany(null);
-            }
-        }
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Intervention>
      */
@@ -228,6 +206,28 @@ class Company
             // set the owning side to null (unless already changed)
             if ($intervention->getCompany() === $this) {
                 $intervention->setCompany(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function addUser(User $user): static
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): static
+    {
+        if ($this->users->removeElement($user)) {
+            // set the owning side to null (unless already changed)
+            if ($user->getCompany() === $this) {
+                $user->setCompany(null);
             }
         }
 
