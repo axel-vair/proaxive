@@ -1,10 +1,12 @@
-import RegisterForm from "./components/RegisterForm"
-import LoginForm from "./components/LoginForm";
-export default function Index() {
+// app/index.jsx
+import React from 'react';
+import { View, Text } from 'react-native';
+import HomeScreen from './HomeScreen'; // Import de HomeScreen
+
+export default function App() {
     return (
-/*
-          <RegisterForm />
-*/
-        <LoginForm />
+        <View style={{ flex: 1 }}>
+            <HomeScreen />
+        </View>
     );
 }

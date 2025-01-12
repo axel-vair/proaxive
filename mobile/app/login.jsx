@@ -1,30 +1,22 @@
+// app/login.jsx
 import React, { useState } from 'react';
-import { Text, TextInput, TouchableOpacity, View, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import axios from 'axios';
 
 export default function LoginForm() {
-    // État pour les champs du formulaire
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    // Fonction pour gérer l'inscription
-    const handleRegister = async () => {
+    const handleLogin = async () => {
         try {
-            const response = await axios.post('http://localhost:8000/api/login', {
-                email,
-                password,
-            });
-
-            // Gérer la réponse de l'API
-            if (response.status === 201) {
+            const response = await axios.post('http://localhost:8000/api/login', { email, password });
+            if (response.status === 200) {
                 Alert.alert('Login réussi', 'Vous êtes connecté.');
             }
         } catch (error) {
-            console.error('Erreur lors de la connexion', error);
-            Alert.alert('Erreur', 'Une erreur est survenue lors de la connexion. Veuillez réessayer.');
+            Alert.alert('Erreur', 'Problème de connexion. Veuillez réessayer.');
         }
     };
-
 
     return (
         <View style={{ padding: 20 }}>
@@ -44,7 +36,7 @@ export default function LoginForm() {
             />
             <TouchableOpacity
                 style={{ backgroundColor: '#007BFF', padding: 15 }}
-                onPress={handleRegister} // Appel de la fonction d'inscription
+                onPress={handleLogin}
             >
                 <Text style={{ color: '#FFFFFF', textAlign: 'center' }}>Se connecter</Text>
             </TouchableOpacity>

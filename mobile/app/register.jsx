@@ -1,34 +1,26 @@
+// app/register.jsx
 import React, { useState } from 'react';
-import { Text, TextInput, TouchableOpacity, View, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import axios from 'axios';
 
 export default function RegisterForm() {
-    // État pour les champs du formulaire
     const [email, setEmail] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [password, setPassword] = useState('');
 
-    // Fonction pour gérer l'inscription
     const handleRegister = async () => {
         try {
             const response = await axios.post('http://localhost:8000/api/register', {
-                email,
-                first_name: firstName, // Utilisez 'first_name' au lieu de 'firstName'
-                last_name: lastName,   // Utilisez 'last_name' au lieu de 'lastName'
-                password,
+                email, first_name: firstName, last_name: lastName, password
             });
-
-            // Gérer la réponse de l'API
             if (response.status === 201) {
-                Alert.alert('Inscription réussie', 'Votre compte a été créé avec succès.');
+                Alert.alert('Inscription réussie', 'Votre compte a été créé.');
             }
         } catch (error) {
-            console.error('Erreur lors de l\'inscription', error);
-            Alert.alert('Erreur', 'Une erreur est survenue lors de l\'inscription. Veuillez réessayer.');
+            Alert.alert('Erreur', 'Problème lors de l\'inscription.');
         }
     };
-
 
     return (
         <View style={{ padding: 20 }}>
@@ -60,9 +52,9 @@ export default function RegisterForm() {
             />
             <TouchableOpacity
                 style={{ backgroundColor: '#007BFF', padding: 15 }}
-                onPress={handleRegister} // Appel de la fonction d'inscription
+                onPress={handleRegister}
             >
-                <Text style={{ color: '#FFFFFF', textAlign: 'center' }}>S'inscrie</Text>
+                <Text style={{ color: '#FFFFFF', textAlign: 'center' }}>S'inscrire</Text>
             </TouchableOpacity>
         </View>
     );
