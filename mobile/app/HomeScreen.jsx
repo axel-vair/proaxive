@@ -1,20 +1,35 @@
-// app/HomeScreen.jsx
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import { useRouter } from 'expo-router';
+import {View, Text, Image} from 'react-native';
+import {useRouter} from 'expo-router';
+import {globalStyles, colors} from "../styles/globalStyles";
+import logo from '../assets/images/logo.png';
+import RedButton from "./components/RedButtonHome";
+import BlueButtonHome from "./components/BlueButtonHome";
 
 export default function HomeScreen() {
     const router = useRouter();
 
     return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text style={{ fontSize: 24, marginBottom: 20 }}>Home Screen</Text>
-            <TouchableOpacity onPress={() => router.push('/login')}>
-                <Text style={{ color: '#007BFF', marginTop: 20 }}>Se connecter</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => router.push('/register')}>
-                <Text style={{ color: '#007BFF', marginTop: 10 }}>S'inscrire</Text>
-            </TouchableOpacity>
+        <View style={globalStyles.container}>
+            <Image source={logo} style={{width: 200, height: 200, marginBottom: 30}}/>
+
+            <Text style={globalStyles.heading}>
+                {"Votre "}
+                <Text style={{ color: colors.secondary500 }}>App</Text>
+                {"\n"}
+                {"d'intervention en ligne"}
+            </Text>
+
+
+            {/* Espace Client Button */}
+            <BlueButtonHome onPress={() => router.push('/client-space')}>
+                Espace Client
+            </BlueButtonHome>
+
+            {/* Espace Technicien Button */}
+            <RedButton onPress={() => router.push('/login')}>
+                Espace Technicien
+            </RedButton>
         </View>
     );
 }
