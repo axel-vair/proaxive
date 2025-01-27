@@ -1,7 +1,6 @@
 import React from 'react';
 import {StyleSheet, View, Text, Pressable, Image} from "react-native";
-import UserIcon from "../../../assets/icons/user-blank.svg";
-import {colors} from "../../../styles/globalStyles";
+import UserIcon from "@/app/assets/icons/user-blank.svg";
 
 const BlueButtonHome = ({children, onPress}) => {
     return (
@@ -16,7 +15,7 @@ const BlueButtonHome = ({children, onPress}) => {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: colors.primary500,
+        backgroundColor: '#01358D',
         width: 300,
         padding: 10,
         margin: 10,

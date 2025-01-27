@@ -1,7 +1,6 @@
 import React from 'react';
 import {StyleSheet, View, Text, Pressable, Image} from "react-native";
-import Flame from "../../../assets/icons/flame.svg";
-import {colors} from "../../../styles/globalStyles";
+import Flame from "@/app/assets/icons/flame.svg";
 
 const RedButtonHome = ({children, onPress}) => {
     return (
@@ -16,7 +15,7 @@ const RedButtonHome = ({children, onPress}) => {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: colors.secondary500,
+        backgroundColor: '#E53953',
         width: 300,
         padding: 10,
         margin: 10,
