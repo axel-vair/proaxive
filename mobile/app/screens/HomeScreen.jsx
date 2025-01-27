@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
         fontSize: 45,
         fontWeight: "bold",
         color: colors.primary500,
-        fontFamily: 'Outfit-Bold.ttf',
+        fontFamily: 'Rubik-Bold.ttf',
         marginBottom: 60,
         marginRight: 20,
         marginLeft: 20,
