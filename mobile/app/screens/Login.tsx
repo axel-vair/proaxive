@@ -1,11 +1,12 @@
-// app/login.jsx
+// app/screens/LoginScreen/Login.tsx
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import axios from 'axios';
 
-export default function LoginForm() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+
+const LoginForm: React.FC = () => {
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
 
     const handleLogin = async () => {
         try {
@@ -34,7 +35,6 @@ export default function LoginForm() {
 
             />
             <TouchableOpacity
-
                 onPress={handleLogin}
             >
                 <Text>Se connecter</Text>
@@ -42,3 +42,5 @@ export default function LoginForm() {
         </View>
     );
 }
+
+export default LoginForm;

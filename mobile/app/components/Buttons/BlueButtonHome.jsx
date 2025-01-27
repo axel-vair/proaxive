@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, View, Text, Pressable, Image} from "react-native";
-import UserIcon from "../../assets/icons/user-blank.svg";
-import {colors} from "../../styles/globalStyles";
+import UserIcon from "../../../assets/icons/user-blank.svg";
+import {colors} from "../../../styles/globalStyles";
 
 const BlueButtonHome = ({children, onPress}) => {
     return (

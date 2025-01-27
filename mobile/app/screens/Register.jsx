@@ -1,4 +1,4 @@
-// app/register.jsx
+// app/Register.jsx
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import axios from 'axios';

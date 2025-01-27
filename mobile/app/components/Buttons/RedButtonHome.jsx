@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, View, Text, Pressable, Image} from "react-native";
-import Flame from "../../assets/icons/flame.svg";
-import {colors} from "../../styles/globalStyles";
+import Flame from "../../../assets/icons/flame.svg";
+import {colors} from "../../../styles/globalStyles";
 
 const RedButtonHome = ({children, onPress}) => {
     return (
