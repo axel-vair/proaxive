@@ -91,6 +91,7 @@ const styles = StyleSheet.create({
         top: -10,
         left: 10,
         fontWeight: 'regular',
+        backgroundColor: '#fff',
         paddingHorizontal: 5,
     },
     title: {
@@ -109,7 +110,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: '#5B6880',
         fontSize: 14,
-        marginTop: 20,
+        marginVertical: 20,
     },
     input: {
         marginTop: 10,
