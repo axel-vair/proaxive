@@ -3,22 +3,28 @@ import React, { useState } from 'react';
 import {View, Text, TextInput, TouchableOpacity, Alert, StyleSheet, Image} from 'react-native';
 import axios from 'axios';
 import logo from '../assets/images/logo_proaxive2.png';
+import {useRouter} from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 export default function LoginForm() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const router = useRouter();
 
     const handleLogin = async () => {
         try {
             const response = await axios.post('http://10.0.2.2:8000/api/login', { email, password });
             if (response.status === 200) {
+                await AsyncStorage.setItem('userToken', response.data.token); // Assurez-vous que le token est dans response.data.token
                 Alert.alert('Login réussi', 'Vous êtes connecté.');
+                router.push('/profile'); // Utilisez router.push pour naviguer vers la page Profile
             }
         } catch (error) {
             Alert.alert('Erreur', 'Problème de connexion. Veuillez réessayer.');
         }
     };
+
 
     return (
         <View style={styles.container}>

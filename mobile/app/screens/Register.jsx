@@ -36,6 +36,7 @@ export default function RegisterForm() {
                     <Text style={styles.legend}>Adresse email</Text>
                     <TextInput
                         style={styles.input}
+                        placeholderTextColor="#344260"
                         placeholder="adresse email"
                         value={email}
                         onChangeText={setEmail}
@@ -45,6 +46,7 @@ export default function RegisterForm() {
                     <Text style={styles.legend}>Prénom</Text>
                     <TextInput
                         style={styles.input}
+                        placeholderTextColor="#344260"
                         placeholder="Prénom"
                         value={firstName}
                         onChangeText={setFirstName}
@@ -54,6 +56,7 @@ export default function RegisterForm() {
                     <Text style={styles.legend}>Nom</Text>
                     <TextInput
                         style={styles.input}
+                        placeholderTextColor="#344260"
                         placeholder="Nom"
                         value={lastName}
                         onChangeText={setLastName}
@@ -64,6 +67,7 @@ export default function RegisterForm() {
                     <Text style={styles.legend}>Mot de passe</Text>
                     <TextInput
                         style={styles.input}
+                        placeholderTextColor="#344260"
                         placeholder="Mot de passe"
                         secureTextEntry={true}
                         value={password}
@@ -129,6 +133,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         paddingLeft: 10,
         width: '100%',
+        color: '#000',
     },
     button: {
         backgroundColor: '#F9556D',

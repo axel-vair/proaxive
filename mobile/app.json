@@ -4,9 +4,6 @@
     "slug": "mobile",
     "version": "1.0.0",
     "orientation": "portrait",
-    "packagerOpts": {
-      "https": true
-    },
     "icon": "./assets/images/logo.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
