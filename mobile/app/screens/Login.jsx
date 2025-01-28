@@ -11,7 +11,7 @@ export default function LoginForm() {
 
     const handleLogin = async () => {
         try {
-            const response = await axios.post('http://localhost:8000/api/login', { email, password });
+            const response = await axios.post('http://10.0.2.2:8000/api/login', { email, password });
             if (response.status === 200) {
                 Alert.alert('Login réussi', 'Vous êtes connecté.');
             }
@@ -27,6 +27,18 @@ export default function LoginForm() {
                 <Text style={styles.title}>Connexion à votre espace client en ligne</Text>
                 <Text style={styles.subtitle}>Pour vous connecter, utilisez votre adresse email fournie au technicien.</Text>
 
+                {/* Fieldset pour l'input Mot de passe */}
+                <View style={styles.fieldSet}>
+                    <Text style={styles.legend}>Identifiant ou adresse email</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Entrez votre identifiant ou adresse email"
+                        secureTextEntry={true}
+                        value={password}
+                        onChangeText={setPassword}
+                    />
+                </View>
+
                 {/* Fieldset pour l'input Email */}
                 <View style={styles.fieldSet}>
                     <Text style={styles.legend}>Votre mot de passe</Text>
@@ -38,17 +50,6 @@ export default function LoginForm() {
                     />
                 </View>
 
-                {/* Fieldset pour l'input Mot de passe */}
-                <View style={styles.fieldSet}>
-                    <Text style={styles.legend}>Identifiant ou adresse email</Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Entrez votre mot de passe"
-                        secureTextEntry={true}
-                        value={password}
-                        onChangeText={setPassword}
-                    />
-                </View>
                 <Text style={styles.inline}>Votre accès est confidentiel, ne le communiquez jamais à autrui.</Text>
             </View>
 
