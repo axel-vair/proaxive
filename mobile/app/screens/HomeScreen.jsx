@@ -22,6 +22,8 @@ export default function HomeScreen() {
                 {"d'intervention en ligne"}
             </Text>
 
+            <BlueButtonHome onPress={() => router.push('/profile')}>
+Profile            </BlueButtonHome>
 
             {/* Espace Client Button */}
             <BlueButtonHome onPress={() => router.push('/register')}>
@@ -47,7 +49,7 @@ const styles = StyleSheet.create({
         fontSize: 45,
         fontWeight: "bold",
         color: colors.primary500,
-        fontFamily: 'Outfit-Bold.ttf',
+        fontFamily: 'Rubik-Bold.ttf',
         marginBottom: 60,
         marginRight: 20,
         marginLeft: 20,
