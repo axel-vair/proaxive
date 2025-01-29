@@ -39,9 +39,8 @@ export default function LoginForm() {
                     <TextInput
                         style={styles.input}
                         placeholder="Entrez votre identifiant ou adresse email"
-                        secureTextEntry={true}
-                        value={password}
-                        onChangeText={setPassword}
+                        value={email}
+                        onChangeText={setEmail}
                     />
                 </View>
 
@@ -50,9 +49,10 @@ export default function LoginForm() {
                     <Text style={styles.legend}>Votre mot de passe</Text>
                     <TextInput
                         style={styles.input}
-                        placeholder="Entrez votre email"
-                        value={email}
-                        onChangeText={setEmail}
+                        placeholder="Entrez votre mot de passe"
+                        secureTextEntry={true}
+                        value={password}
+                        onChangeText={setPassword}
                     />
                 </View>
 
@@ -121,9 +121,8 @@ const styles = StyleSheet.create({
     },
     input: {
         marginTop: 10,
-        height: 20,
+        height: 40, // Less or equal 40 = doesnt show text android 💩
         borderWidth: 0,
-        marginBottom: 10,
         paddingLeft: 10,
         width: '100%',
     },
