@@ -1,50 +1,81 @@
-import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, ActivityIndicator, TextInput} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, ActivityIndicator, TextInput } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import SaveButton from "../components/Buttons/SaveButton";
 import CancelButton from "../components/Buttons/CancelButton";
 import axios from "axios";
 
 const Profile = () => {
-    const [userData, setUserData] = useState(null);
+    const [userData, setUserData] = useState({ email: "", firstName: "", lastName: "", password: "" });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const token = await AsyncStorage.getItem('userToken'); // Récupération du token
+                const token = await AsyncStorage.getItem('userToken');
                 if (!token) {
-                    throw new Error('Token non trouvé'); // Ajoutez cette vérification
+                    throw new Error('Token non trouvé');
                 }
 
                 const response = await axios.get('http://10.0.2.2:8000/api/profile', {
                     headers: {
-                        Authorization: `Bearer ${token}`, // Envoi du token dans l'en-tête
+                        Authorization: `Bearer ${token}`,
                     },
                 });
-                setUserData(response.data); // Stockage des données utilisateur
+                setUserData(response.data);
             } catch (error) {
-                console.error('Erreur lors de la récupération des données:', error); // Affichez l'erreur
+                console.error('Erreur lors de la récupération des données:', error);
                 setError(error.message || 'Impossible de récupérer les données utilisateur.');
             } finally {
-                setLoading(false); // Fin du chargement
+                setLoading(false);
             }
         };
         fetchUserData();
     }, []);
 
+    const handleInputChange = (field, value) => {
+        setUserData(prevState => ({
+            ...prevState,
+            [field]: value,
+        }));
+    };
+
+    const handleSubmit = async () => {
+        try {
+            const token = await AsyncStorage.getItem('userToken');
+            if (!token) {
+                throw new Error('Token non trouvé');
+            }
+
+            const response = await axios.put('http://10.0.2.2:8000/api/profile', userData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            if (response.status === 200) {
+                setUserData(response.data); // Mettez à jour l'état avec les nouvelles données
+                alert('Vos informations ont été mises à jour avec succès !');
+            } else {
+                alert('Erreur lors de la mise à jour des informations.');
+            }
+        } catch (error) {
+            console.error('Erreur lors de la mise à jour des données:', error);
+            setError(error.response?.data?.message || 'Impossible de mettre à jour les données utilisateur.');
+        }
+    };
+
+
     if (loading) {
-        return <ActivityIndicator size="large" color="#0000ff"/>;
+        return <ActivityIndicator size="large" color="#0000ff" />;
     }
     if (error) {
         return <Text style={styles.error}>{error}</Text>;
     }
-    return (
 
+    return (
         <View style={styles.container}>
             <View style={styles.form}>
-
                 <Text style={styles.subtitle}>Informations de votre compte utilisateur</Text>
                 <Text style={styles.text}>Mettre à jour vos informations</Text>
 
@@ -52,8 +83,8 @@ const Profile = () => {
                     <Text style={styles.legend}>Adresse email</Text>
                     <TextInput
                         style={styles.input}
-                        placeholder={userData.email}
-                        onChangeText={setUserData}
+                        placeholder="Email"
+                        onChangeText={(value) => handleInputChange('email', value)}
                         value={userData.email}
                     />
                 </View>
@@ -62,8 +93,8 @@ const Profile = () => {
                     <Text style={styles.legend}>Nom</Text>
                     <TextInput
                         style={styles.input}
-                        placeholder={userData.lastName}
-                        onChangeText={setUserData}
+                        placeholder="Nom"
+                        onChangeText={(value) => handleInputChange('lastName', value)}
                         value={userData.lastName}
                     />
                 </View>
@@ -72,14 +103,14 @@ const Profile = () => {
                     <Text style={styles.legend}>Prénom</Text>
                     <TextInput
                         style={styles.input}
-                        placeholder={userData.firstName}
-                        onChangeText={setUserData}
+                        placeholder="Prénom"
+                        onChangeText={(value) => handleInputChange('firstName', value)}
                         value={userData.firstName}
                     />
                 </View>
 
                 <CancelButton>Annuler</CancelButton>
-                <SaveButton>Enregistrer</SaveButton>
+                <SaveButton onPress={handleSubmit}>Enregistrer</SaveButton>
             </View>
         </View>
     );
@@ -123,7 +154,7 @@ const styles = StyleSheet.create({
     },
     input: {
         marginTop: 10,
-        height: 40, // Less or equal 40 = doesnt show text android 💩
+        height: 40,
         borderWidth: 0,
         paddingLeft: 10,
         width: '100%',
