@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\UserRepository;
+use Gesdinet\JWTRefreshTokenBundle\Entity\RefreshToken;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -16,7 +17,9 @@ class LoginController extends AbstractController
     public function login(Request $request,
                           UserRepository $userRepository,
                           UserPasswordHasherInterface $passwordHasher,
-                          JWTTokenManagerInterface $tokenManager): JsonResponse
+                          JWTTokenManagerInterface $tokenManager,
+                          RefreshToken $refreshTokenManager
+    ): JsonResponse
     {
         $payload = json_decode($request->getContent(), true);
 
