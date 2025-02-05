@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250115100803 extends AbstractMigration
+final class Version20250205114825 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -26,6 +26,7 @@ final class Version20250115100803 extends AbstractMigration
         $this->addSql('CREATE SEQUENCE equipment_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE intervention_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE operating_system_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
+        $this->addSql('CREATE SEQUENCE refresh_tokens_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE role_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE status_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE task_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
@@ -50,6 +51,8 @@ final class Version20250115100803 extends AbstractMigration
         $this->addSql('COMMENT ON COLUMN intervention.created_at IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('COMMENT ON COLUMN intervention.updated_at IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('CREATE TABLE operating_system (id INT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE refresh_tokens (id INT NOT NULL, refresh_token VARCHAR(128) NOT NULL, username VARCHAR(255) NOT NULL, valid TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_9BACE7E1C74F2195 ON refresh_tokens (refresh_token)');
         $this->addSql('CREATE TABLE role (id INT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE status (id INT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE task (id INT NOT NULL, name VARCHAR(255) NOT NULL, price DOUBLE PRECISION NOT NULL, description TEXT NOT NULL, PRIMARY KEY(id))');
@@ -79,6 +82,7 @@ final class Version20250115100803 extends AbstractMigration
         $this->addSql('DROP SEQUENCE equipment_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE intervention_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE operating_system_id_seq CASCADE');
+        $this->addSql('DROP SEQUENCE refresh_tokens_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE role_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE status_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE task_id_seq CASCADE');
@@ -96,6 +100,7 @@ final class Version20250115100803 extends AbstractMigration
         $this->addSql('DROP TABLE equipment');
         $this->addSql('DROP TABLE intervention');
         $this->addSql('DROP TABLE operating_system');
+        $this->addSql('DROP TABLE refresh_tokens');
         $this->addSql('DROP TABLE role');
         $this->addSql('DROP TABLE status');
         $this->addSql('DROP TABLE task');

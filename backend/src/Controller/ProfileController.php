@@ -63,5 +63,15 @@ final class ProfileController extends AbstractController
         $entityManager->persist($user);
         $entityManager->flush();
 
-        return new JsonResponse(['message' => 'Profil mis à jour avec succès'], JsonResponse::HTTP_OK);    }
+        // Renvoyer les données mises à jour
+        return new JsonResponse([
+            'message' => 'Profil mis à jour avec succès',
+            'user' => [
+                'id' => $user->getId(),
+                'email' => $user->getEmail(),
+                'firstName' => $user->getFirstName(),
+                'lastName' => $user->getLastName(),
+            ]
+        ], JsonResponse::HTTP_OK);
+    }
 }
