@@ -22,8 +22,10 @@ export default function HomeScreen() {
                 {"d'intervention en ligne"}
             </Text>
 
+            {/* Espace Profile Button */}
             <BlueButtonHome onPress={() => router.push('/profile')}>
-Profile            </BlueButtonHome>
+                Profile
+            </BlueButtonHome>
 
             {/* Espace Client Button */}
             <BlueButtonHome onPress={() => router.push('/register')}>

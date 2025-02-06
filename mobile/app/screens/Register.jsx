@@ -127,10 +127,8 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     input: {
-        marginTop: 10,
-        height: 20,
+        height: 40,
         borderWidth: 0,
-        marginBottom: 10,
         paddingLeft: 10,
         width: '100%',
         color: '#000',

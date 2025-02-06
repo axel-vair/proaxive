@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use Doctrine\ORM\EntityManagerInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -31,5 +34,49 @@ final class ProfileController extends AbstractController
         ];
 
         return new JsonResponse($userData, JsonResponse::HTTP_OK);
+    }
+
+    #[Route('/api/profile', name: 'app_profile', methods: ['PUT'])]
+    public function profileUpdate(
+        TokenStorageInterface $tokenStorage,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        JWTTokenManagerInterface $tokenManager): JsonResponse
+    {
+        $this->token = $tokenStorage->getToken();
+        $user = $this->getUser();
+
+        $data = json_decode($request->getContent(), true);
+
+        if (!$user) {
+            return new JsonResponse(['error' => 'Unauthorized'], JsonResponse::HTTP_UNAUTHORIZED);
+        }
+
+        if(isset($data['email'])) {
+            $user->setEmail($data['email']);
+        }
+        if(isset($data['firstName'])) {
+            $user->setFirstName($data['firstName']);
+        }
+        if(isset($data['lastName'])) {
+            $user->setLastName($data['lastName']);
+        }
+
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        $token = $tokenManager->create($user);
+
+        // Renvoyer les données mises à jour
+        return new JsonResponse([
+            'token' => $token,
+            'message' => 'Profil mis à jour avec succès',
+            'user' => [
+                'id' => $user->getId(),
+                'email' => $user->getEmail(),
+                'firstName' => $user->getFirstName(),
+                'lastName' => $user->getLastName(),
+            ]
+        ], JsonResponse::HTTP_OK);
     }
 }

@@ -16,9 +16,9 @@ export default function LoginForm() {
         try {
             const response = await axios.post('http://10.0.2.2:8000/api/login', { email, password });
             if (response.status === 200) {
-                await AsyncStorage.setItem('userToken', response.data.token); // Assurez-vous que le token est dans response.data.token
+                await AsyncStorage.setItem('userToken', response.data.token);
                 Alert.alert('Login réussi', 'Vous êtes connecté.');
-                router.push('/profile'); // Utilisez router.push pour naviguer vers la page Profile
+                router.push('/profile'); 
             }
         } catch (error) {
             Alert.alert('Erreur', 'Problème de connexion. Veuillez réessayer.');
