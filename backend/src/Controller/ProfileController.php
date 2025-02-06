@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,7 +40,8 @@ final class ProfileController extends AbstractController
     public function profileUpdate(
         TokenStorageInterface $tokenStorage,
         Request $request,
-        EntityManagerInterface $entityManager): JsonResponse
+        EntityManagerInterface $entityManager,
+        JWTTokenManagerInterface $tokenManager): JsonResponse
     {
         $this->token = $tokenStorage->getToken();
         $user = $this->getUser();
@@ -63,8 +65,11 @@ final class ProfileController extends AbstractController
         $entityManager->persist($user);
         $entityManager->flush();
 
+        $token = $tokenManager->create($user);
+
         // Renvoyer les données mises à jour
         return new JsonResponse([
+            'token' => $token,
             'message' => 'Profil mis à jour avec succès',
             'user' => [
                 'id' => $user->getId(),

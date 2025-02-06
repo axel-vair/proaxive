@@ -53,8 +53,14 @@ const Profile = () => {
                     Authorization: `Bearer ${token}`,
                 },
             });
+
             if (response.status === 200) {
-                setUserData(response.data); // Mettez à jour l'état avec les nouvelles données
+                const newToken = response.data.token;
+                if (newToken) { // Vérifiez si le token est défini
+                    await AsyncStorage.setItem('userToken', newToken);
+                } else {
+                    console.error('Le nouveau token est indéfini');
+                }
                 alert('Vos informations ont été mises à jour avec succès !');
             } else {
                 alert('Erreur lors de la mise à jour des informations.');
