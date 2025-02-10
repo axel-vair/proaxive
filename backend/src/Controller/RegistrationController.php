@@ -22,6 +22,7 @@ class RegistrationController extends AbstractController
         $user->setEmail($payload->get('email'));
         $user->setFirstName($payload->get('first_name'));
         $user->setLastName($payload->get('last_name'));
+        $user->setRoles(['ROLE_USER']);
         $plaintextPassword = $payload->get('password');
         $hashedPassword = $passwordHasher->hashPassword(
             $user,
