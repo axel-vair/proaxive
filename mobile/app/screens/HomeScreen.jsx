@@ -1,7 +1,7 @@
 // app/screens/HomeScreen.jsx
 import React from 'react';
 import {View, Text, Image, StyleSheet} from 'react-native';
-import {useRouter} from 'expo-router';
+import {Link, useRouter} from 'expo-router';
 import logo from '../assets/images/logo.png';
 import RedButton from "../components/Buttons/RedButtonHome";
 import BlueButtonHome from "../components/Buttons/BlueButtonHome";
@@ -28,8 +28,10 @@ export default function HomeScreen() {
             </BlueButtonHome>
 
             {/* Espace Client Button */}
-            <BlueButtonHome onPress={() => router.push('/register')}>
-                Espace Client
+            <BlueButtonHome>
+                <Link href={'/register'}>
+                    Espace Client
+                </Link>
             </BlueButtonHome>
 
             <RedButton onPress={() => router.push('/login')}>
