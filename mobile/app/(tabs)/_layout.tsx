@@ -10,6 +10,7 @@ export default function TabLayout() {
                     title: 'Accueil',
                     headerShown: false,
                     tabBarIcon: ({ color }) => <FontAwesome size={28} name="home" color={color} />,
+                    tabBarStyle: { display: 'none' }
                 }}
             />
             <Tabs.Screen
