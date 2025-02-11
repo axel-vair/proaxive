@@ -1,32 +1,34 @@
 // app/screens/HomeScreen.jsx
-import React, {useEffect, useState} from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
-import {useRouter} from 'expo-router';
+import React, { useState, useCallback } from 'react';  // Import useCallback
+import { View, Text, Image, StyleSheet } from 'react-native';
+import { useRouter } from 'expo-router';
 import logo from '../assets/images/logo.png';
-import {colors} from "../../styles/globalStyles";
+import { colors } from "../../styles/globalStyles";
 import RedButtonHome from "@/app/components/Buttons/RedButtonHome";
 import BlueButtonHome from "@/app/components/Buttons/BlueButtonHome";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import { useFocusEffect } from '@react-navigation/native';  // Import useFocusEffect
 
 export default function HomeScreen() {
     const router = useRouter();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    useEffect(() => {
-        // Function to check if the user is logged in (has a token)
-        const checkLoginStatus = async () => {
-            try {
-                const token = await AsyncStorage.getItem('userToken');
-                setIsLoggedIn(!!token);
-            } catch (error) {
-                console.error("Error checking login status:", error);
-                setIsLoggedIn(false);
-            }
-        };
-
-        checkLoginStatus();
-    }, []);
+    useFocusEffect(
+        useCallback(() => {  // Wrap in useCallback
+            const checkLoginStatus = async () => {
+                try {
+                    const token = await AsyncStorage.getItem('userToken');
+                    setIsLoggedIn(!!token);
+                } catch (error) {
+                    console.error("Error checking login status:", error);
+                    setIsLoggedIn(false);
+                }
+            };
+            checkLoginStatus();
+            return () => {
+            };
+        }, [])
+    );
 
     const handleLogout = async () => {
         try {
@@ -40,16 +42,16 @@ export default function HomeScreen() {
 
     return (
         <View style={styles.container}>
-            <Image source={logo} style={{marginBottom: 30}}/>
+            <Image source={logo} style={{ marginBottom: 30 }} />
 
             <Text style={styles.heading}>
                 {"Votre "}
-                <Text style={{color: colors.secondary500}}>App</Text>
+                <Text style={{ color: colors.secondary500 }}>App</Text>
                 {"\n"}
                 {"d'intervention en ligne"}
             </Text>
-            {/*TODO: Changer les noms et les routes. Utilisation d'un register/login pour la facilité - notre produit fonctionne par la création d'un customer via l'interface admin */}
-            {/* Espace Profile Button */}
+
+            {/* Profile and Logout Buttons */}
             {isLoggedIn && (
                 <>
                     <BlueButtonHome onPress={() => router.push('/profile')}>
@@ -62,6 +64,7 @@ export default function HomeScreen() {
                 </>
             )}
 
+            {/* Registration and Login Buttons */}
             {!isLoggedIn && (
                 <>
                     <RedButtonHome onPress={() => router.push('/register')}>
@@ -73,11 +76,9 @@ export default function HomeScreen() {
                     </BlueButtonHome>
                 </>
             )}
-
         </View>
     );
 }
-
 
 const styles = StyleSheet.create({
     container: {
