@@ -2,16 +2,8 @@ import { View, Text, StyleSheet } from 'react-native';
 
 export default function Tab() {
     return (
-        <View style={styles.container}>
-            <Text>Tab [Home|Interventions|Settings]</Text>
-        </View>
+        <Text>
+            Intervention
+        </Text>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-});

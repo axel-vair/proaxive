@@ -1,4 +1,3 @@
-import { View, Text, StyleSheet } from 'react-native';
 import RegisterForm from "@/app/screens/Register";
 
 export default function Tab() {
@@ -6,11 +5,3 @@ export default function Tab() {
         <RegisterForm />
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-});
