@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
@@ -15,6 +14,8 @@ use Symfony\Component\Serializer\Attribute\Groups;
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    public const ROLE_ADMIN      = 'ROLE_ADMIN';
+    public const ROLE_TECHNICIAN = 'ROLE_TECHNICIAN';
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -24,10 +25,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $email = null;
 
     /**
-     * @var list<string> The user roles
+     * @var <string> The user roles
      */
-    #[ORM\Column]
-    private array $roles = [];
+    #[ORM\Column(length: 255)]
+    private string $roles = '';
 
     /**
      * @var string The hashed password
@@ -52,7 +53,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?\DateTimeImmutable $updated_at = null;
 
-    #[ORM\ManyToOne(inversedBy: 'users')]
+    #[ORM\ManyToOne(inversedBy : 'users')]
     private ?Company $company = null;
 
     public function getId(): ?int
@@ -96,25 +97,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see UserInterface
      *
-     * @return list<string>
+     * @return string
      */
     public function getRoles(): array
     {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-
-        return array_unique($roles);
+        return [$this->roles, 'ROLE_TECHNICIAN'];
     }
-
-    /**
-     * @param list<string> $roles
-     */
-    public function setRoles(array $roles): static
+    
+    public function setRoles(string $role): self
     {
-        $this->roles = $roles;
-
+        $this->roles = $role;
         return $this;
+    }
+    
+    public function getRole(): string
+    {
+        return $this->roles;
+    }
+    
+    public function hasRole(string $role): bool
+    {
+        return $this->roles === $role;
     }
 
     /**

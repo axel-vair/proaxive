@@ -6,9 +6,11 @@ use App\Repository\CustomerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
-class Customer
+class Customer implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -35,6 +37,9 @@ class Customer
 
     #[ORM\Column(length: 255)]
     private ?string $email = null;
+    
+    #[ORM\Column(length: 255)]
+    private ?string $password = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
@@ -141,6 +146,53 @@ class Customer
         $this->email = $email;
 
         return $this;
+    }
+
+    public function getFullName(): string
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    public function getRoles(): array
+    {
+        // Return the roles granted to the user
+        return ['ROLE_CUSTOMER'];
+    }
+
+    public function getSalt(): ?string
+    {
+        // Not needed for modern algorithms (e.g. bcrypt, sodium)
+        return null;
+    }
+
+    public function eraseCredentials(): void
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
+
+    public function getUserIdentifier(): string
+    {
+        // Return the email as the user identifier
+        return $this->email;
+    }
+
+    public function getUsername(): string
+    {
+        // Return the email as the username
+        return $this->email;
     }
 
     public function getCreatedAt(): ?\DateTimeImmutable

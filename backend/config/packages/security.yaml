@@ -1,36 +1,81 @@
 security:
-    # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
-    # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
+
+    role_hierarchy:
+        ROLE_CUSTOMER: ['ROLE_CUSTOMER']
+        ROLE_TECHNICIAN: ['ROLE_TECHNICIAN']
+        ROLE_ADMIN: ['ROLE_ADMIN']
+
     providers:
-        users:
+        app_user_provider:
             entity:
                 class: App\Entity\User
                 property: email
+        app_customer_provider:
+            entity:
+                class: App\Entity\Customer
+                property: email
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        main:
+
+        admin_login:
+            pattern: ^/api/admin/login
             stateless: true
-            entry_point: jwt
             json_login:
-                check_path: auth
+                check_path: /api/admin/login
                 username_path: email
                 password_path: password
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
-            jwt: ~
+            provider: app_user_provider
+
+        customer_login:
+            pattern: ^/api/customer/login
+            stateless: true
+            json_login:
+                check_path: /api/customer/login
+                username_path: email
+                password_path: password
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+            provider: app_customer_provider
+
+        admin:
+            pattern: ^/api/admin
+            stateless: true
+            lazy: true
+            entry_point: jwt
+            jwt: 
+                provider: app_user_provider
             refresh_jwt:
-                check_path: jwt_refresh
+                provider: app_user_provider
+        api:
+            pattern: ^/api
+            stateless: true
+            lazy: true
+            entry_point: jwt
+            jwt: 
+                provider: app_customer_provider
+            refresh_jwt:
+                provider: app_customer_provider
+
 
     access_control:
-        - { path: ^/$, roles: PUBLIC_ACCESS } # Allows accessing the Swagger UI
-        - { path: ^/api/docs, roles: PUBLIC_ACCESS } # Allows accessing the Swagger UI docs
-        - { path: ^/api/login, roles: PUBLIC_ACCESS }
-        - { path: ^/api/register, roles: PUBLIC_ACCESS }
-        - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api/login_check, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/customer/login, roles: PUBLIC_ACCESS }
+        - { path: ^/api/customer, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api/admin/login, roles: PUBLIC_ACCESS }
+        - { path: ^/api/admin/register, roles: PUBLIC_ACCESS }
+        - { path: ^/api/admin/customer, roles: ROLE_TECHNICIAN }
+        - { path: ^/api/admin/brands, roles: ROLE_TECHNICIAN }
+        - { path: ^/api/admin/equipment, roles: ROLE_TECHNICIAN }
+        - { path: ^/api/admin/intervention, roles: ROLE_TECHNICIAN }
+        - { path: ^/api/admin/company, roles: ROLE_ADMIN }
+
 
 when@test:
     doctrine:
@@ -38,12 +83,8 @@ when@test:
             dbname_suffix: ''
     security:
         password_hashers:
-            # By default, password hashers are resource intensive and take time. This is
-            # important to generate secure password hashes. In tests however, secure hashes
-            # are not important, waste resources and increase test times. The following
-            # reduces the work factor to the lowest possible values.
             Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
                 algorithm: auto
-                cost: 4 # Lowest possible value for bcrypt
-                time_cost: 3 # Lowest possible value for argon
-                memory_cost: 10 # Lowest possible value for argon
+                cost: 4
+                time_cost: 3
+                memory_cost: 10

@@ -22,28 +22,32 @@ class Intervention
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $type = null;
-
+    
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
-
+    
     #[ORM\Column]
     private ?\DateTimeImmutable $updated_at = null;
 
-    /**
-     * @var Collection<int, TypeIntervention>
-     */
-    #[ORM\ManyToMany(targetEntity: TypeIntervention::class, mappedBy: 'intervention')]
-    private Collection $typeInterventions;
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?TypeIntervention $type = null;
 
     #[ORM\ManyToOne(inversedBy: 'interventions')]
     private ?Company $company = null;
 
+    #[ORM\ManyToOne]
+    private ?Status $status = null;
+
+    #[ORM\ManyToOne]
+    private ?Customer $customer = null;
+
+    #[ORM\OneToMany(mappedBy: 'intervention', targetEntity: TaskIntervention::class)]
+    private Collection $taskInterventions;
+
     public function __construct()
     {
-        $this->typeInterventions = new ArrayCollection();
+        $this->taskInterventions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -75,12 +79,12 @@ class Intervention
         return $this;
     }
 
-    public function getType(): ?string
+    public function getType(): ?TypeIntervention
     {
         return $this->type;
     }
 
-    public function setType(string $type): static
+    public function setType(TypeIntervention $type): static
     {
         $this->type = $type;
 
@@ -111,33 +115,6 @@ class Intervention
         return $this;
     }
 
-    /**
-     * @return Collection<int, TypeIntervention>
-     */
-    public function getTypeInterventions(): Collection
-    {
-        return $this->typeInterventions;
-    }
-
-    public function addTypeIntervention(TypeIntervention $typeIntervention): static
-    {
-        if (!$this->typeInterventions->contains($typeIntervention)) {
-            $this->typeInterventions->add($typeIntervention);
-            $typeIntervention->addIntervention($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTypeIntervention(TypeIntervention $typeIntervention): static
-    {
-        if ($this->typeInterventions->removeElement($typeIntervention)) {
-            $typeIntervention->removeIntervention($this);
-        }
-
-        return $this;
-    }
-
     public function getCompany(): ?Company
     {
         return $this->company;
@@ -146,6 +123,50 @@ class Intervention
     public function setCompany(?Company $company): static
     {
         $this->company = $company;
+
+        return $this;
+    }
+
+    public function getStatus(): ?Status
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?Status $status): static
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getCustomer(): ?Customer
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?Customer $customer): static
+    {
+        $this->customer = $customer;
+
+        return $this;
+    }
+
+    public function getTaskInterventions()
+    {
+        return $this->taskInterventions;
+    }
+
+    public function addTaskIntervention(TaskIntervention $taskIntervention): self
+    {
+        $this->taskInterventions[] = $taskIntervention;
+        $taskIntervention->setIntervention($this);
+
+        return $this;
+    }
+
+    public function removeTaskIntervention(TaskIntervention $taskIntervention): self
+    {
+        $this->taskInterventions->removeElement($taskIntervention);
 
         return $this;
     }

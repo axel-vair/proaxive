@@ -40,4 +40,10 @@ class BrandRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    public function checkBrandName(string $name): bool
+    {
+        $brand = $this->findOneBy(['name' => $name]);
+
+        return $brand !== null;
+    }
 }
